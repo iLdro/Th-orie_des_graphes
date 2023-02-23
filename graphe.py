@@ -25,8 +25,7 @@ class graphe():
 
 
     def print_matrice(self):
-        """print in this type
-                              Matrice des valeurs
+        """Matrice des valeurs
                                0 1 2 3 4 5 6
                               0 * 0 0 * * * *
                               1 * * * 1 1 * *
