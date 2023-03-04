@@ -1,15 +1,15 @@
-
+import turtle as tu
 import task as t
+
+
 class graphe():
     def __init__(self, lines):
         self.lines = lines
         self.graph = []
         self.create_graph()
-
-
     def create_graph(self):
         for line in self.lines:
-            line_read=line.split()
+            line_read = line.split()
             a = t.task(line_read[0], line_read[1])
             if a not in self.graph:
                 self.graph.append(a)
@@ -21,8 +21,7 @@ class graphe():
     def print_graph(self):
         for task in self.graph:
             for dependencie in task.dependencies:
-                print(dependencie, '->', task.name,"=", task.duration)
-
+                print(dependencie, '->', task.name, "=", task.duration)
 
     def print_matrice(self):
         """Matrice des valeurs
@@ -44,11 +43,22 @@ class graphe():
             for j in range(len(self.graph)):
                 if str(i) in str(self.graph[j].dependencies):
                     print(self.graph[j].duration, end=" ")
-                else :
+                else:
                     print("*", end=" ")
             print("\n")
 
-
-
-
-
+    def graphism(self):
+        """Draw the graph"""
+        for i in range(len(self.graph)):
+            tu.penup()
+            tu.goto(i * 100, 0)
+            tu.pendown()
+            tu.write(self.graph[i].name)
+            for j in range(len(self.graph)):
+                if str(i) in str(self.graph[j].dependencies):
+                    tu.penup()
+                    tu.goto(i, i)
+                    tu.pendown()
+                    tu.goto(j, j)
+                    tu.write(self.graph[j].duration)
+        tu.mainloop()
