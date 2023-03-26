@@ -4,7 +4,7 @@ import algo as al
 
 
 def __main__():
-    file = fl.file_lecture('test/table_6.txt')
+    file = fl.file_lecture('test/table_4.txt')
     graph = gr.graphe(file.file_lines)
     graph.print_graph()
     graph.print_matrice()

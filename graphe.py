@@ -7,21 +7,39 @@ class graphe():
         self.lines = lines
         self.graph = []
         self.create_graph()
+
+    def set_link_value(self, task : t.task):
+        if task.dependencies == '0':
+            task.duration['0'] = 0
+        else:
+            for dependencie in task.dependencies:
+                task.duration[dependencie.name] = dependencie.out_link
     def create_graph(self):
+        entry_node = t.task('0', 0)
+        self.graph.append(entry_node)
+        cpt = 0
         for line in self.lines:
             line_read = line.split()
             a = t.task(line_read[0], line_read[1])
             if a not in self.graph:
                 self.graph.append(a)
                 if len(line_read) == 2:
-                    a.set_dependencies('0')
+                    cpt += 1
+                    a.set_dependencies(entry_node)
             for i in range(2, len(line_read)):
-                a.set_dependencies(line_read[i])
+                for task in self.graph:
+                    if task.name == line_read[i]:
+                        a.set_dependencies(task)
+                        break
+            self.set_link_value(a)
+        if cpt <= 1:
+            self.graph.pop(0)
 
     def print_graph(self):
+        print(len(self.graph))
         for task in self.graph:
             for dependencie in task.dependencies:
-                print(dependencie, '->', task.name, "=", task.duration)
+                print(dependencie.name, '->', task.name, "=", task.duration[dependencie.name])
 
     def print_matrice(self):
         """Matrice des valeurs
@@ -35,14 +53,14 @@ class graphe():
                               6 * * * * * * *"""
         print("Matrice des valeurs")
         print(" ", end="")
-        for i in range(len(self.graph)):
+        for i in range(1,len(self.graph)+1):
             print(i, end=" ")
         print()
-        for i in range(len(self.graph)):
-            print(i, end="  ")
+        for task in self.graph:
+            print(task.name, end="  ")
             for j in range(len(self.graph)):
-                if str(i) in str(self.graph[j].dependencies):
-                    print(self.graph[j].duration, end=" ")
+                if task in self.graph[j].dependencies:
+                    print(self.graph[j].duration[task.name], end=" ")
                 else:
                     print("*", end=" ")
             print("\n")
