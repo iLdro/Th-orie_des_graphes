@@ -34,6 +34,14 @@ class graphe():
             self.set_link_value(a)
         if cpt <= 1:
             self.graph.pop(0)
+        no_dependencies = []
+        #Récupéere les tasks qui n'apparaissent dans acune dépendance
+        end_task = t.task(str(len(self.graph)), 0)
+        for task in no_dependencies:
+            print(task.name)
+            end_task.set_dependencies(task)
+            end_task.duration[task.name] = 0
+        self.graph.append(end_task)
 
     def print_graph(self):
         print(len(self.graph))
@@ -53,7 +61,7 @@ class graphe():
                               6 * * * * * * *"""
         print("Matrice des valeurs")
         print(" ", end="")
-        for i in range(1,len(self.graph)+1):
+        for i in range(1,len(self.graph)):
             print(i, end=" ")
         print()
         for task in self.graph:
