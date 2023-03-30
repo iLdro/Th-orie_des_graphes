@@ -10,7 +10,6 @@ def __main__():
     graph.print_matrice()
 
     print(al.has_cycle(graph.graph))
-    graph.graphism()
 
 
 if __name__ == "__main__":
