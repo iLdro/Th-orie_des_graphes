@@ -1,58 +1,21 @@
-def has_cycle(graphe):
-    visited = set()
-    path = set()
-    for node in graphe:
-        a = set()
-        b = set()
-        visited.add(node.name)
-        path.add(node.name)
-        for parent in node.dependencies:
-            print("yes")
-            if parent not in visited:
-                if a:
-                    a = True
-            elif parent in path:
-                a = True
-            else:
-                a = False
-        path.remove(node.name)
-        if node.name not in visited:
-            if a:
-                b = True
-        else:
-            b = False
-    return b
+def detect_cycle(graph):
+    nodes = list(graph.graph)
+    while nodes:
+        # Trouver les points d'entrée (pas de dépendances)
+        entry_nodes = [node for node in nodes if not any(node in task.dependencies for task in nodes)]
 
+        # S'il n'y a pas de points d'entrée, il y a un cycle
+        if not entry_nodes:
+            return True
 
-def check_arc_value(graphe):
-    """Valeurs identiques pour tous les arcs incidents vers l’extérieur à un sommet"""
+        # Supprimer les points d'entrée de la liste des nœuds
+        for entry_node in entry_nodes:
+            nodes.remove(entry_node)
 
+            # Supprimer les liens vers les points d'entrée supprimés
+            for node in nodes:
+                if entry_node in node.dependencies:
+                    node.dependencies.remove(entry_node)
 
-def check_arc_entry(graphe):
-    """Arcs incidents vers l’extérieur au point d’entrée ont une valeur nulle"""
-    for node in graphe:
-        if node.name == '0':
-            for parent in node.dependencies:
-                if parent.duration != 0:
-                    return False
-    return True
+    return False
 
-
-def check_negative_arc(graphe):
-    """Arcs avec une valeur négative"""
-    for node in graphe:
-        for _ in node.dependencies:
-            if node.duration < 0:
-                return False
-    return True
-
-
-def calendar(graphe):
-    """Algrithme de calcul du calendrier"""
-    for node in graphe:
-        for parent in node.dependencies:
-            if parent.name == '0':
-                node.duration = node.duration
-            else:
-                node.duration = max(node.duration, parent.duration + node.duration)
-    return graphe

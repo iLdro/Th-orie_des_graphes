@@ -4,6 +4,7 @@ class task():
         self.duration = {}
         self.dependencies = []
         self.out_link = int(out_link)
+        self.rank = 0
 
     def set_dependencies(self, dependencie):
         self.dependencies.append(dependencie)

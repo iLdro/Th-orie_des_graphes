@@ -4,12 +4,13 @@ import algo as al
 
 
 def __main__():
-    file = fl.file_lecture('test/table_4.txt')
+    file = fl.file_lecture('test/table_1.txt')
     graph = gr.graphe(file.file_lines)
     graph.print_graph()
     graph.print_matrice()
-
-    print(al.has_cycle(graph.graph))
+    # Créer une copie du graph
+    graph.verify_cycle()
+    graph.print_rank()
 
 
 if __name__ == "__main__":
