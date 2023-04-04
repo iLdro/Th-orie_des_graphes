@@ -1,5 +1,6 @@
 import turtle as tu
 import task as t
+from prettytable import PrettyTable
 
 
 class graphe():
@@ -79,36 +80,117 @@ class graphe():
                     print(header_format.format("*"), end=" ")
             print()
 
-    def verify_cycle(self):
+    def set_rank(self):
         graphe_copy = self.graph.copy()
         path = []
         while True:
-            print("ITERATION")
+            print("\nItération")
             entry_nodes = [node for node in graphe_copy if not node.dependencies]
+            node_ranked_update = []
             for node in entry_nodes:
-                if node in path:
-                    print("Cycle")
-                    return
+
                 print("entry node", node.name)
+                if node in path:
+                    return graphe_copy
                 graphe_copy.remove(node)
                 for node_rank in self.graph:
-                    if node_rank in graphe_copy:
-                        node_rank.rank += 1
+                    if node_rank in graphe_copy and node_rank not in entry_nodes:
+                        node_ranked_update.append(node_rank)
                 for task in graphe_copy:
                     if node in task.dependencies:
                         task.dependencies.remove(node)
                         path.append(node)
             if not entry_nodes:
                 if graphe_copy:
-                    print("Cycle")
-                    return
-                print("No cycle")
-                break
+                    return graphe_copy
+                return graphe_copy
+            node_ranked_update = list(set(node_ranked_update))
+            print("node_ranked_update", end=" ")
+            for update in node_ranked_update:
+                print(update.name, end=" ")
+                update.rank += 1
 
 
+    def verify_cycle(self):
+        graphe_copy = self.graph.copy()
+        path = []
+        while True:
+            print("\n")
+            entry_nodes = [node for node in graphe_copy if not node.dependencies]
+            print("Nouveau point d'entrée :", end=" ")
+            for node in entry_nodes:
+                print(node.name, end=" ")
+                if node in path:
+                    print(" Null")
+                    print("Le graphe contient un cycle")
+                    return False
+                graphe_copy.remove(node)
+                for task in graphe_copy:
+                    if node in task.dependencies:
+                        task.dependencies.remove(node)
+                        path.append(node)
+            if not entry_nodes:
+                if graphe_copy:
+                    print(" Null")
+                    print("Le graphe contient un cycle")
+                    return False
+                print(" Null")
+                print("Le graphe ne contient pas de cycle")
+                return True
+
+    def check_negaive_value(self):
+        for task in self.graph:
+            for dependencie in task.dependencies:
+                if task.duration[dependencie.name] < 0:
+                    print("Le graphe contient une valeur négative")
+                    return False
+        print("Le graphe ne contient pas de valeur négative")
+        return True
 
     def print_rank(self):
         print("Rang des tâches")
         for task in self.graph:
             print(task.name, ":", task.rank)
+
+    def calculate_early_start(self):
+        for task in self.graph:
+            if task.rank == 0:
+                if not task.dependencies:
+                    task.early_start = 0
+                else:
+                    task.early_start = max(t.early_start + task.duration[t.name] for t in task.dependencies)
+
+
+    def display_early_start(self):
+        table = PrettyTable()
+        table.field_names = ["Tâche", "Début précoce"]
+        for task in self.graph:
+            table.add_row([task.name, task.early_start])
+        print(table)
+
+    def compute_late_start(self):
+        self.calculate_early_start()
+        for task in self.graph:
+            if not task.dependencies:
+                task.late_start = task.early_start
+            else:
+                task.late_start = max(t.early_start - task.duration[t.name] for t in task.dependencies)
+
+    def display_late_start(self):
+        table = PrettyTable()
+        table.field_names = ["Tâche", "Début tardif abs" ]
+
+        for task in self.graph:
+            table.add_row([task.name, abs(task.late_start)])
+
+        print(table)
+
+    def compute_margins(self):
+        table = PrettyTable()
+        table.field_names = ["Tâche", "Marge totale"]
+        for task in self.graph:
+            table.add_row([task.name, task.late_start + task.early_start])
+        print(table)
+
+
 
