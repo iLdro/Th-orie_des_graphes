@@ -5,6 +5,11 @@ class task():
         self.dependencies = []
         self.out_link = int(out_link)
         self.rank = 0
+        self.children = []
+
+
+    def set_children(self, graph):
+        self.children = [task for task in graph if self in task.dependencies]
 
     def set_dependencies(self, dependencie):
         self.dependencies.append(dependencie)
