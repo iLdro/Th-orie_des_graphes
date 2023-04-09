@@ -20,20 +20,23 @@ def Affichage():
         file = fl.file_lecture('test/table_' + str(graph_number))
         graph = gr.graphe(file.file_lines)
         ordo_check = 0
-        print("Que souhaitez-vous faire ?")
-        print("0 - EXIT")
-        print("1 - Afficher le graphe")
-        print("2 - Afficher la matrice des valeurs")
-        print("3 - Vérifier s'il s'agit d'un graphe d'ordonnancement")
-        print("4 - Afficher le rang de chaque tâche")
-        print("5 - Afficher la date au plus tôt")
-        print("6 - Afficher la date au plus tard")
-        print("7 - Afficher le chemin critique")
+
 
         while True:
+            print("Que souhaitez-vous faire ?")
+            print("0 - EXIT")
+            print("1 - Afficher le graphe")
+            print("2 - Afficher la matrice des valeurs")
+            print("3 - Vérifier s'il s'agit d'un graphe d'ordonnancement")
+            if ordo_check == 1:
+                print("4 - Afficher le rang de chaque tâche")
+                print("5 - Afficher la date au plus tôt")
+                print("6 - Afficher la date au plus tard")
+                print("7 - Afficher les marges")
+                print("8 - Afficher le chemin critique")
             choix = int(input("Choisissez un nombre :\n"))
             if choix == 0:
-                return
+                break
             elif choix == 1:
                 print("Affichage sous forme de lignes")
                 graph.print_graph()
@@ -63,12 +66,14 @@ def Affichage():
                     graph.print_rank()
                 else:
                     print("Le graphe n'est pas un graphe d'ordonnancement nous ne pouvons pas effectuer cette opération")
-            elif choix == 5:
+            elif choix == 5 and ordo_check == 1:
                 graph.calculate_early_start()
                 print("Affichage de la date au plus tôt")
                 graph.display_early_start()
-            elif choix == 6:
+            elif choix == 6 and ordo_check == 1:
                 graph.compute_late_start()
                 graph.display_late_start()
-            elif choix == 7:
+            elif choix == 7 and ordo_check == 1:
                 graph.compute_margins()
+            elif choix == 8 and ordo_check == 1:
+                graph.display_critical_path()

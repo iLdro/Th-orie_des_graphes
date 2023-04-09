@@ -81,35 +81,37 @@ class graphe():
             print()
 
     def set_rank(self):
-        graphe_copy = self.graph.copy()
-        path = []
-        while True:
-            print("\nItération")
-            entry_nodes = [node for node in graphe_copy if not node.dependencies]
-            node_ranked_update = []
-            for node in entry_nodes:
+        if self.graph[-1].rank !=0:
+            pass
+        else:
+            graphe_copy = self.graph.copy()
+            path = []
+            while True:
+                print("\nItération")
+                entry_nodes = [node for node in graphe_copy if not node.dependencies]
+                node_ranked_update = []
+                for node in entry_nodes:
 
-                print("entry node", node.name)
-                if node in path:
+                    print("entry node", node.name)
+                    if node in path:
+                        return graphe_copy
+                    graphe_copy.remove(node)
+                    for node_rank in self.graph:
+                        if node_rank in graphe_copy and node_rank not in entry_nodes:
+                            node_ranked_update.append(node_rank)
+                    for task in graphe_copy:
+                        if node in task.dependencies:
+                            task.dependencies.remove(node)
+                            path.append(node)
+                if not entry_nodes:
+                    if graphe_copy:
+                        return graphe_copy
                     return graphe_copy
-                graphe_copy.remove(node)
-                for node_rank in self.graph:
-                    if node_rank in graphe_copy and node_rank not in entry_nodes:
-                        node_ranked_update.append(node_rank)
-                for task in graphe_copy:
-                    if node in task.dependencies:
-                        task.dependencies.remove(node)
-                        path.append(node)
-            if not entry_nodes:
-                if graphe_copy:
-                    return graphe_copy
-                return graphe_copy
-            node_ranked_update = list(set(node_ranked_update))
-            print("node_ranked_update", end=" ")
-            for update in node_ranked_update:
-                print(update.name, end=" ")
-                update.rank += 1
-
+                node_ranked_update = list(set(node_ranked_update))
+                print("node_ranked_update", end=" ")
+                for update in node_ranked_update:
+                    print(update.name, end=" ")
+                    update.rank += 1
 
     def verify_cycle(self):
         graphe_copy = self.graph.copy()
@@ -152,36 +154,80 @@ class graphe():
         for task in self.graph:
             print(task.name, ":", task.rank)
 
-    def calculate_early_start(self):
-        for task in self.graph:
-            if task.rank == 0:
-                if not task.dependencies:
-                    task.early_start = 0
-                else:
-                    task.early_start = max(t.early_start + task.duration[t.name] for t in task.dependencies)
+    def order_by_rank(self):
+        rank_order = []
 
+        for task in self.graph:
+            rank_order.append(task.rank)
+        rank_order = list(set(rank_order))
+        rank_order.sort()
+        task_by_rank = []
+        for rank in rank_order:
+            task_by_rank.append([task for task in self.graph if task.rank == rank])
+        return task_by_rank
+
+    def calculate_early_start(self):
+        task_by_rank = self.order_by_rank()
+        for i in range(len(task_by_rank)):
+            for j in task_by_rank[i]:
+                if i == 0:
+                    for task in self.graph:
+                        if task == j:
+                            task.early_date = 0
+                else:
+                    for task in self.graph:
+                        if task == j:
+                            task.early_date = max(
+                                [task.duration[dependencie.name] + dependencie.early_date for dependencie in
+                                 task.dependencies])
 
     def display_early_start(self):
         table = PrettyTable()
         table.field_names = ["Tâche", "Début précoce"]
         for task in self.graph:
-            table.add_row([task.name, task.early_start])
+            table.add_row([task.name, task.early_date])
         print(table)
 
-    def compute_late_start(self):
-        self.calculate_early_start()
+    def set_child_to_task(self):
         for task in self.graph:
-            if not task.dependencies:
-                task.late_start = task.early_start
-            else:
-                task.late_start = max(t.early_start - task.duration[t.name] for t in task.dependencies)
+            for t in self.graph:
+                if task in t.dependencies:
+                    task.children.append(t)
+
+    def compute_late_start(self):
+        self.set_child_to_task()
+        self.calculate_early_start()
+        task_by_rank = self.order_by_rank()
+        task_by_rank.reverse()
+        for i in range(len(task_by_rank)):
+            print("Itération", i)
+            for j in task_by_rank[i]:
+                if i == 0:
+                    for task in self.graph:
+                        if task == j:
+                            task.late_date = task.early_date
+                else:
+                    for task in self.graph:
+                        if task == j:
+                            possible_latedate = []
+                            print("Pour la tache", task.name)
+                            for child in task.children:
+                                print("Enfant", child.name)
+                                print("child",child.name)
+                                print("task late date", child.late_date - task.out_link)
+                                possible_latedate.append(child.late_date - task.out_link)
+                            print()
+                            task.late_date = min(possible_latedate)
+
+
 
     def display_late_start(self):
         table = PrettyTable()
-        table.field_names = ["Tâche", "Début tardif abs" ]
+        table.field_names = ["Tâche", "Début tardif abs"]
 
         for task in self.graph:
-            table.add_row([task.name, abs(task.late_start)])
+            table.add_row([task.name, task.late_date])
+
 
         print(table)
 
@@ -189,8 +235,20 @@ class graphe():
         table = PrettyTable()
         table.field_names = ["Tâche", "Marge totale"]
         for task in self.graph:
-            table.add_row([task.name, task.late_start + task.early_start])
+            table.add_row([task.name, task.late_date - task.early_date])
         print(table)
 
+    def compute_critical_path(self):
+        critical_path = []
+        for task in self.graph:
+            if task.late_date == task.early_date:
+                critical_path.append(task)
+        return critical_path
 
+    def display_critical_path(self):
+        critical_path = self.compute_critical_path()
+        print("Chemin critique")
+        for task in critical_path :
+            print(task.name, end=" ")
+        print()
 

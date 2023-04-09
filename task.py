@@ -1,17 +1,15 @@
 class task():
     def __init__(self, name, out_link=0):
         self.name = name
-        self.duration = {}
+        self.duration = {name: 0}
         self.dependencies = []
+        self.children = []
+        self.out_link = out_link
         self.out_link = int(out_link)
         self.rank = 0
-        self.children = []
-        self.early_start = 0
-        self.late_start = 0
+        self.early_date = 0
+        self.laterdate = 0
 
-
-    def get_children(self, tasks):
-        return list(filter(lambda t: self in t.dependencies, tasks))
 
     def set_dependencies(self, dependencie):
         self.dependencies.append(dependencie)
