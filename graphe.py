@@ -19,7 +19,6 @@ class graphe():
     def create_graph(self):
         entry_node = t.task('0', 0)
         self.graph.append(entry_node)
-        cpt = 0
         for line in self.lines:
             line_read = line.split()
             if any(task.name == line_read[0] for task in self.graph):
@@ -43,7 +42,6 @@ class graphe():
         exit_nodes = [node for node in self.graph if not any(node in task.dependencies for task in self.graph)]
         exit_task = t.task(len(self.graph), 0)
         for node in exit_nodes:
-            print(node.name)
             exit_task.set_dependencies(node)
             exit_task.duration[node.name] = node.out_link
         self.graph.append(exit_task)
@@ -83,12 +81,9 @@ class graphe():
             graphe_copy = self.graph.copy()
             path = []
             while True:
-                print("\nItération")
                 entry_nodes = [node for node in graphe_copy if not node.dependencies]
                 node_ranked_update = []
                 for node in entry_nodes:
-
-                    print("entry node", node.name)
                     if node in path:
                         return graphe_copy
                     graphe_copy.remove(node)
@@ -104,7 +99,6 @@ class graphe():
                         return graphe_copy
                     return graphe_copy
                 node_ranked_update = list(set(node_ranked_update))
-                print("node_ranked_update", end=" ")
                 for update in node_ranked_update:
                     print(update.name, end=" ")
                     update.rank += 1
@@ -119,7 +113,6 @@ class graphe():
             for node in entry_nodes:
                 print(node.name, end=" ")
                 if node in path:
-                    print(" Null")
                     print("Le graphe contient un cycle")
                     return False
                 graphe_copy.remove(node)
@@ -129,10 +122,8 @@ class graphe():
                         path.append(node)
             if not entry_nodes:
                 if graphe_copy:
-                    print(" Null")
                     print("Le graphe contient un cycle")
                     return False
-                print(" Null")
                 print("Le graphe ne contient pas de cycle")
                 return True
 

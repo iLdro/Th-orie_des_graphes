@@ -4,7 +4,6 @@ class task():
         self.duration = {name: 0}
         self.dependencies = []
         self.children = []
-        self.out_link = out_link
         self.out_link = int(out_link)
         self.rank = 0
         self.early_date = 0
