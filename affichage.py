@@ -1,6 +1,5 @@
 import file_lecture as fl
 import graphe as gr
-import algo as al
 from copy import deepcopy
 
 

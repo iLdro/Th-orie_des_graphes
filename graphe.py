@@ -23,12 +23,10 @@ class graphe():
         for line in self.lines:
             line_read = line.split()
             if any(task.name == line_read[0] for task in self.graph):
-                # La tâche a déjà été créée, on passe à la prochaine ligne
                 continue
             a = t.task(line_read[0], line_read[1])
             self.graph.append(a)
             if len(line_read) == 2:
-                cpt += 1
                 a.set_dependencies(entry_node)
         for line in self.lines:
             line_read = line.split()
@@ -42,8 +40,6 @@ class graphe():
                         a.set_dependencies(task)
                         break
             self.set_link_value(a)
-        if cpt <= 1:
-            self.graph.pop(0)
         exit_nodes = [node for node in self.graph if not any(node in task.dependencies for task in self.graph)]
         exit_task = t.task(len(self.graph), 0)
         for node in exit_nodes:
@@ -200,7 +196,6 @@ class graphe():
         task_by_rank = self.order_by_rank()
         task_by_rank.reverse()
         for i in range(len(task_by_rank)):
-            print("Itération", i)
             for j in task_by_rank[i]:
                 if i == 0:
                     for task in self.graph:
@@ -210,11 +205,7 @@ class graphe():
                     for task in self.graph:
                         if task == j:
                             possible_latedate = []
-                            print("Pour la tache", task.name)
                             for child in task.children:
-                                print("Enfant", child.name)
-                                print("child",child.name)
-                                print("task late date", child.late_date - task.out_link)
                                 possible_latedate.append(child.late_date - task.out_link)
                             print()
                             task.late_date = min(possible_latedate)
