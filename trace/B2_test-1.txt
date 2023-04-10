@@ -1,0 +1,60 @@
+Lancement du programme pour le fichier : table_1
+affichage du graphe sous forme de lignes
+0 -> 1 = 0
+0 -> 2 = 0
+1 -> 3 = 2
+2 -> 4 = 5
+3 -> 4 = 4
+13 -> 4 = 9
+4 -> 5 = 2
+5 -> 6 = 5
+6 -> 7 = 5
+7 -> 8 = 9
+8 -> 9 = 2
+11 -> 10 = 1
+4 -> 11 = 2
+3 -> 12 = 4
+6 -> 13 = 5
+12 -> 13 = 1
+9 -> 14 = 5
+10 -> 14 = 1
+
+
+affichage du graphe sous forme de matrice
+Matrice des valeurs pour le graphe :
+    0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 
+ 0  *  0  0  *  *  *  *  *  *  *  *  *  *  *  * 
+ 1  *  *  *  2  *  *  *  *  *  *  *  *  *  *  * 
+ 2  *  *  *  *  5  *  *  *  *  *  *  *  *  *  * 
+ 3  *  *  *  *  4  *  *  *  *  *  *  *  4  *  * 
+ 4  *  *  *  *  *  2  *  *  *  *  *  2  *  *  * 
+ 5  *  *  *  *  *  *  5  *  *  *  *  *  *  *  * 
+ 6  *  *  *  *  *  *  *  5  *  *  *  *  *  5  * 
+ 7  *  *  *  *  *  *  *  *  9  *  *  *  *  *  * 
+ 8  *  *  *  *  *  *  *  *  *  2  *  *  *  *  * 
+ 9  *  *  *  *  *  *  *  *  *  *  *  *  *  *  5 
+10  *  *  *  *  *  *  *  *  *  *  *  *  *  *  1 
+11  *  *  *  *  *  *  *  *  *  *  1  *  *  *  * 
+12  *  *  *  *  *  *  *  *  *  *  *  *  *  1  * 
+13  *  *  *  *  9  *  *  *  *  *  *  *  *  *  * 
+14  *  *  *  *  *  *  *  *  *  *  *  *  *  *  * 
+
+
+Vérification de l'ordenancement
+Le graphe possède-t-il des cycles
+
+
+Nouveau point d'entrée : 0 
+
+Nouveau point d'entrée : 1 2 
+
+Nouveau point d'entrée : 3 
+
+Nouveau point d'entrée : 12 
+
+Nouveau point d'entrée : Le graphe contient un cycle
+Le graphe a-t-il des valeurs négatives
+Le graphe ne contient pas de valeur négative
+Il ne s'agit pas d'une graphe d'ordonnecement
+
+

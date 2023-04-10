@@ -1,0 +1,140 @@
+Lancement du programme pour le fichier : table_11
+affichage du graphe sous forme de lignes
+0 -> 1 = 0
+1 -> 2 = 1
+4 -> 2 = 2
+2 -> 3 = 1
+1 -> 4 = 1
+5 -> 4 = 5
+1 -> 5 = 1
+4 -> 6 = 2
+5 -> 6 = 5
+3 -> 7 = 4
+5 -> 7 = 5
+2 -> 8 = 1
+4 -> 8 = 2
+6 -> 8 = 6
+7 -> 8 = 3
+8 -> 9 = 0
+
+
+affichage du graphe sous forme de matrice
+Matrice des valeurs pour le graphe :
+  0 1 2 3 4 5 6 7 8 9 
+0 * 0 * * * * * * * * 
+1 * * 1 * 1 1 * * * * 
+2 * * * 1 * * * * 1 * 
+3 * * * * * * * 4 * * 
+4 * * 2 * * * 2 * 2 * 
+5 * * * * 5 * 5 5 * * 
+6 * * * * * * * * 6 * 
+7 * * * * * * * * 3 * 
+8 * * * * * * * * * 0 
+9 * * * * * * * * * * 
+
+
+Vérification de l'ordenancement
+Le graphe possède-t-il des cycles
+
+
+Nouveau point d'entrée : 0 
+
+Nouveau point d'entrée : 1 
+
+Nouveau point d'entrée : 5 
+
+Nouveau point d'entrée : 4 
+
+Nouveau point d'entrée : 2 6 
+
+Nouveau point d'entrée : 3 
+
+Nouveau point d'entrée : 7 
+
+Nouveau point d'entrée : 8 
+
+Nouveau point d'entrée : 9 
+
+Nouveau point d'entrée : Le graphe ne contient pas de cycle
+Le graphe a-t-il des valeurs négatives
+Le graphe ne contient pas de valeur négative
+Il s'agit d'un graphe d'ordonnecement
+
+
+Affichage du rang de chaque tâche
+Rang des tâches
+0 : 0
+1 : 1
+2 : 4
+3 : 5
+4 : 3
+5 : 2
+6 : 4
+7 : 6
+8 : 7
+9 : 8
+
+
+Affichage de la date au plus tôt
++-------+---------------+
+| Tâche | Début précoce |
++-------+---------------+
+|   0   |       0       |
+|   1   |       0       |
+|   2   |       8       |
+|   3   |       9       |
+|   4   |       6       |
+|   5   |       1       |
+|   6   |       8       |
+|   7   |       13      |
+|   8   |       16      |
+|   9   |       16      |
++-------+---------------+
+
+
+
+
+
+
+
+
+
+
+
+Affichade de la date au plus tard
++-------+------------------+
+| Tâche | Début tardif abs |
++-------+------------------+
+|   0   |        0         |
+|   1   |        0         |
+|   2   |        8         |
+|   3   |        9         |
+|   4   |        6         |
+|   5   |        1         |
+|   6   |        10        |
+|   7   |        13        |
+|   8   |        16        |
+|   9   |        16        |
++-------+------------------+
+
+
+Affichage des marges
++-------+--------------+
+| Tâche | Marge totale |
++-------+--------------+
+|   0   |      0       |
+|   1   |      0       |
+|   2   |      0       |
+|   3   |      0       |
+|   4   |      0       |
+|   5   |      0       |
+|   6   |      2       |
+|   7   |      0       |
+|   8   |      0       |
+|   9   |      0       |
++-------+--------------+
+
+
+Affichage du chemin critique
+Chemin critique
+0 1 2 3 7 8 9 
