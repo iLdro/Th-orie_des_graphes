@@ -239,15 +239,28 @@ class graphe():
                         critical_path[-1].append(task)
         for i in range(len(critical_path)):
             critical_path[i].insert(0, entry_node[0])
-        # on prend le/les chemin(s) le plus long
-        max_length = max([len(path) for path in critical_path])
-        critical_path = [path for path in critical_path if len(path) == max_length]
-        return critical_path
+
+        if len(critical_path) > 1:
+            print("Chemins critiques  possibles:")
+            for path in critical_path:
+                for node in path:
+                    print(node.name, end=" ")
+                print("\n")
+        # on prend le/les chemin(s) dont la durée est la plus grande
+        max_duration = 0
+        longest_path = None
+
+        for path in critical_path:
+            path_duration = sum([node.out_link for node in path])
+
+            if path_duration > max_duration:
+                max_duration = path_duration
+                longest_path = path
+
+        return longest_path
 
     def display_critical_path(self):
         critical_path = self.compute_critical_path()
         print("Chemin critique")
-        for path in critical_path:
-            for node in path:
-                print(node.name, end=" ")
-            print("\n")
+        for node in critical_path:
+            print(node.name, end=" ")
