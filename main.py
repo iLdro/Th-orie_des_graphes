@@ -3,7 +3,7 @@ import tracegenerator
 
 
 def __main__():
-     affichage.Affichage()
+     tracegenerator.tracegenerator()
 
 
 
