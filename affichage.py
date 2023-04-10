@@ -10,12 +10,12 @@ def Affichage():
         while True:
             try:
                 graph_number = int(input())
-                if graph_number < 1 or graph_number > 11:
-                    print("Veuillez choisir un graphe entre 1 et 11")
+                if graph_number < 1 or graph_number > 12:
+                    print("Veuillez choisir un graphe entre 1 et 12")
                 else:
                     break
             except ValueError:
-                print("Veuillez choisir un graphe entre 1 et 11")
+                print("Veuillez choisir un graphe entre 1 et 2")
         file = fl.file_lecture('test/table_' + str(graph_number))
         graph = gr.graphe(file.file_lines)
         ordo_check = 0
@@ -37,7 +37,7 @@ def Affichage():
             if choix == 0:
                 break
             elif choix == 1:
-                print("Affichage sous forme de lignes")
+                print("Affichage sous forme de lignes pour le fichier table_"+ str(graph_number))
                 graph.print_graph()
             elif choix == 2:
                 print("Affichage sous forme de matrice")

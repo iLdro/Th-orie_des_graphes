@@ -28,6 +28,7 @@ class graphe():
             if len(line_read) == 2:
                 a.set_dependencies(entry_node)
         for line in self.lines:
+            print(line)
             line_read = line.split()
             a = next(task for task in self.graph if task.name == line_read[0])
             task_read = []
@@ -52,7 +53,7 @@ class graphe():
                 print(dependencie.name, '->', task.name, "=", task.duration[dependencie.name])
 
     def print_matrice(self):
-        print("Matrice des valeurs")
+        print("Matrice des valeurs pour le graphe :")
 
         # Calculate the maximum length of task names
         max_length = max([len(str(task.name)) for task in self.graph])
