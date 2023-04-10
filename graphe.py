@@ -28,7 +28,6 @@ class graphe():
             if len(line_read) == 2:
                 a.set_dependencies(entry_node)
         for line in self.lines:
-            print(line)
             line_read = line.split()
             a = next(task for task in self.graph if task.name == line_read[0])
             task_read = []
