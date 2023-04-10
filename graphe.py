@@ -228,11 +228,9 @@ class graphe():
                 entries_node.append(task)
 
         while entries_node:
-            print("Nouveau point d'entrée :", end=" ")
             node_treated = entries_node.pop()
             print(node_treated.name)
             critical_path.append([node_treated])
-            print("yes")
             while critical_path[-1][-1] not in exit_node:
                 for task in self.graph:
                     if task.late_date - task.early_date == 0 and critical_path[-1][-1] in task.dependencies:
