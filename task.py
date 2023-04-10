@@ -7,7 +7,7 @@ class task():
         self.out_link = int(out_link)
         self.rank = 0
         self.early_date = 0
-        self.laterdate = 0
+        self.late_date = 0
 
 
     def set_dependencies(self, dependencie):

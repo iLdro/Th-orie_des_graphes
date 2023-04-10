@@ -100,7 +100,6 @@ class graphe():
                     return graphe_copy
                 node_ranked_update = list(set(node_ranked_update))
                 for update in node_ranked_update:
-                    print(update.name, end=" ")
                     update.rank += 1
 
     def verify_cycle(self):
@@ -209,8 +208,6 @@ class graphe():
 
         for task in self.graph:
             table.add_row([task.name, task.late_date])
-
-
         print(table)
 
     def compute_margins(self):
@@ -221,16 +218,36 @@ class graphe():
         print(table)
 
     def compute_critical_path(self):
+        #Get all the task wwhich have a margin of 0 and 0 as dependencies
         critical_path = []
+        entries_node= []
+        entry_node = [node for node in self.graph if not node.dependencies]
+        exit_node = [node for node in self.graph if not node.children]
         for task in self.graph:
-            if task.late_date == task.early_date:
-                critical_path.append(task)
+            if task.late_date - task.early_date == 0 and entry_node[0] in task.dependencies:
+                entries_node.append(task)
+
+        while entries_node:
+            print("Nouveau point d'entrée :", end=" ")
+            node_treated = entries_node.pop()
+            print(node_treated.name)
+            critical_path.append([node_treated])
+            print("yes")
+            while critical_path[-1][-1] not in exit_node:
+                for task in self.graph:
+                    if task.late_date - task.early_date == 0 and critical_path[-1][-1] in task.dependencies:
+                        critical_path[-1].append(task)
+        for i in range(len(critical_path)):
+            critical_path[i].insert(0, entry_node[0])
+        # on prend le/les chemin(s) le plus long
+        max_length = max([len(path) for path in critical_path])
+        critical_path = [path for path in critical_path if len(path) == max_length]
         return critical_path
 
     def display_critical_path(self):
         critical_path = self.compute_critical_path()
         print("Chemin critique")
-        for task in critical_path :
-            print(task.name, end=" ")
-        print()
-
+        for path in critical_path:
+            for node in path:
+                print(node.name, end=" ")
+            print("\n")
