@@ -1,5 +1,5 @@
 import turtle as tu
-import task as t
+import B2_task as t
 from prettytable import PrettyTable
 
 
@@ -229,7 +229,6 @@ class graphe():
 
         while entries_node:
             node_treated = entries_node.pop()
-            print(node_treated.name)
             critical_path.append([node_treated])
             while critical_path[-1][-1] not in exit_node:
                 for task in self.graph:
@@ -262,3 +261,4 @@ class graphe():
         print("Chemin critique")
         for node in critical_path:
             print(node.name, end=" ")
+        print("\n")

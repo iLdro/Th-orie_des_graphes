@@ -1,8 +1,8 @@
-import graphe as gr
+import B2_graphe as gr
 from copy import deepcopy
 import sys
 import os
-import file_lecture as fl
+import B2_file_lecture as fl
 
 
 class tracegenerator :
@@ -11,8 +11,8 @@ class tracegenerator :
         for i in range(1, len(self.files) + 1):
             file = fl.file_lecture('test/' + self.files[i - 1])
             graph = gr.graphe(file.file_lines)
-            open(f"trace/test-{self.files[i - 1].split('_')[-1]}.txt", 'a').close()
-            with open(f"trace/test-{self.files[i - 1].split('_')[-1]}.txt", 'w', encoding='UTF-8') as f:
+            open(f"trace/B2_test-{self.files[i - 1].split('_')[-1]}.txt", 'a').close()
+            with open(f"trace/B2_test-{self.files[i - 1].split('_')[-1]}.txt", 'w', encoding='UTF-8') as f:
                 f.write("Lancement du programme pour le fichier : table_" + str(i) + "\n")
                 sys.stdout = f
                 print("affichage du graphe sous forme de lignes")

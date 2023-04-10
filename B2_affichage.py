@@ -1,5 +1,5 @@
-import file_lecture as fl
-import graphe as gr
+import B2_file_lecture as fl
+import B2_graphe as gr
 from copy import deepcopy
 
 
