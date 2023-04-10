@@ -12,3 +12,4 @@ class task():
 
     def set_dependencies(self, dependencie):
         self.dependencies.append(dependencie)
+

@@ -1,8 +1,10 @@
 import affichage
+import tracegenerator
 
 
 def __main__():
-    affichage.Affichage()
+     affichage.Affichage()
+
 
 
 if __name__ == "__main__":
